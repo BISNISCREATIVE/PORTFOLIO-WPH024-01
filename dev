@@ -1,0 +1,21 @@
+> vite
+
+You are using Node.js 20.10.0. Vite requires Node.js version 20.19+ 
+or 22.12+. Please upgrade your Node.js version.
+Email configuration loaded:
+Host: smtp.padin.my.id
+Port: 465
+User: admin@padin.my.id
+Password set: true
+Password length: 14
+error when starting dev server:
+TypeError: crypto.hash is not a function
+    at getHash (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:2649:21)
+    at getLockfileHash (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:11523:9)
+    at getDepHash (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:11526:23)
+    at initDepsOptimizerMetadata (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:10979:53)  
+    at createDepsOptimizer (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:34635:17)        
+    at new DevEnvironment (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:35400:109)        
+    at Object.defaultCreateClientDevEnvironment [as createEnvironment] (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:35819:9)
+    at _createServer (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:28241:132)
+    at async CAC.<anonymous> (file:///mnt/d/BISNISCREATIVE/PORTFOLIO1/node_modules/vite/dist/node/cli.js:580:18)
