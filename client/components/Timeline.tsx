@@ -66,7 +66,7 @@ function CompanyLogo({
   return (
     <div className="flex items-center gap-3">
       {logoSrc ? (
-        <img src={logoSrc} alt={label} className="h-10 object-contain" />
+        <img src={logoSrc} alt={label} className="object-contain h-10" />
       ) : (
         <span
           className={`font-extrabold text-3xl ${styles[company] ?? "text-white"}`}
@@ -79,20 +79,24 @@ function CompanyLogo({
 }
 
 export function Timeline() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const timelineRef = useRef<HTMLDivElement | null>(null); // Nama ref diubah agar tidak bentrok
+  const isInView = useInView(timelineRef, { once: true, margin: "-100px" });
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Array untuk menyimpan ref setiap dot agar bisa melacak posisinya
+  const dotRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
+      if (timelineRef.current) {
+        const rect = timelineRef.current.getBoundingClientRect();
         const scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
         const elementTop = rect.top + scrollTop;
         const elementHeight = rect.height;
         const windowHeight = window.innerHeight;
 
+        // Calculate progress within the timeline section
         const progress = Math.max(
           0,
           Math.min(
@@ -137,8 +141,10 @@ export function Timeline() {
   );
 
   return (
-    <section className="py-20 bg-[#0e0e13]" ref={ref}>
-      <div className="container mx-auto px-4">
+    <section className="py-20 bg-[#0e0e13]" ref={timelineRef}>
+      {" "}
+      {/* Gunakan timelineRef */}
+      <div className="container px-4 mx-auto">
         <motion.div
           variants={container}
           initial="hidden"
@@ -146,11 +152,11 @@ export function Timeline() {
           className="max-w-6xl mx-auto"
         >
           {/* Header */}
-          <motion.div variants={item} className="text-center mb-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-2 text-white drop-shadow-lg">
+          <motion.div variants={item} className="mb-10 text-center">
+            <h2 className="mb-2 text-4xl font-bold text-white md:text-5xl drop-shadow-lg">
               Years of Building, Learning, and Shipping
             </h2>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto text-lg text-gray-300">
               Each role has sharpened my ability to build better digital
               experiences, faster.
             </p>
@@ -158,15 +164,16 @@ export function Timeline() {
 
           {/* Timeline with left spine */}
           <div className="relative">
-            {/* Static spine line (bold, pink) */}
-            <div className="absolute left-8 top-0 bottom-0 w-2 bg-gradient-to-b from-pink-500/80 via-pink-400/60 to-pink-600/0 rounded-full" />
+            {/* The main vertical line - now a combination of static and animated */}
+            <div className="absolute left-[3.5rem] top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500/80 via-purple-400/60 to-purple-600/0 rounded-full" />
 
             {/* Animated glowing pink line (bold, animated glow) */}
-            <div className="absolute left-8 top-0 bottom-0 w-2 overflow-hidden pointer-events-none rounded-full">
+            <div className="absolute left-[3.5rem] top-0 bottom-0 w-1 overflow-hidden pointer-events-none rounded-full">
               <motion.div
-                className="w-full h-full bg-gradient-to-b from-pink-400 via-pink-500 to-pink-400 opacity-90 rounded-full"
+                className="w-full h-full rounded-full bg-gradient-to-b from-pink-400 via-pink-500 to-pink-400 opacity-90"
                 style={{
-                  transform: `translateY(${scrollProgress * 100}%)`,
+                  transform: `scaleY(${scrollProgress})`, // Animates height based on scroll
+                  transformOrigin: "top", // Starts the animation from the top
                   boxShadow:
                     "0 0 32px 8px rgba(236,72,153,0.7), 0 0 64px 16px rgba(236,72,153,0.3)",
                   filter: `blur(${2 + Math.abs(Math.sin(scrollProgress * Math.PI)) * 2}px)`,
@@ -179,62 +186,93 @@ export function Timeline() {
                   ],
                 }}
                 transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
+                  boxShadow: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
                 }}
               />
             </div>
 
             <div className="space-y-10">
-              {items.map((exp, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={item}
-                  className="relative pl-20"
-                >
-                  {/* Timeline node - glowing purple circle */}
-                  <div className="absolute left-4 top-8 w-4 h-4 rounded-full bg-purple-500 shadow-[0_0_12px_4px_rgba(168,85,247,0.5)]" />
+              {items.map((exp, idx) => {
+                // Mendapatkan posisi relatif dot terhadap container timeline
+                let dotProgress = 0;
+                if (dotRefs.current[idx] && timelineRef.current) {
+                  const dotRect = dotRefs.current[idx]!.getBoundingClientRect();
+                  const timelineRect =
+                    timelineRef.current!.getBoundingClientRect();
 
-                  {/* Card */}
-                  <div className="relative rounded-2xl bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden border border-white/10">
-                    {/* Top gradient highlight for first card */}
-                    {exp.highlight && (
-                      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-r from-purple-600/20 via-purple-400/10 to-transparent" />
-                    )}
+                  // Posisi tengah dot relatif terhadap bagian atas timeline container
+                  const dotCenterRelativeToTimeline =
+                    dotRect.top + dotRect.height / 2 - timelineRect.top;
 
-                    <div className="grid md:grid-cols-[220px_1px_1fr]">
-                      {/* Left column with period and logo */}
-                      <div className="p-8 flex flex-col gap-4 bg-gradient-to-b from-white/10 to-transparent">
-                        <div className="text-gray-200 text-lg font-semibold tracking-wide">
-                          {exp.period}
+                  // Progress garis animasi dari 0 (atas) sampai 1 (bawah) dari timeline container
+                  const animatedLineHeight =
+                    timelineRect.height * scrollProgress;
+
+                  // Jika tengah dot sudah dilewati oleh ujung garis animasi
+                  if (animatedLineHeight >= dotCenterRelativeToTimeline) {
+                    dotProgress = 1; // Dot sudah dilewati
+                  } else {
+                    dotProgress = 0; // Dot belum dilewati
+                  }
+                }
+
+                return (
+                  <motion.div
+                    key={idx}
+                    variants={item}
+                    className="relative pl-28 md:pl-36"
+                  >
+                    {/* Timeline node - glowing purple circle */}
+                    <div
+                      ref={(el) => (dotRefs.current[idx] = el)} // Simpan ref untuk setiap dot
+                      className={`absolute left-12 top-8 w-4 h-4 rounded-full transition-colors duration-300 
+                                  ${dotProgress === 1 ? "bg-pink-500 shadow-[0_0_12px_4px_rgba(236,72,153,0.5)]" : "bg-purple-500 shadow-[0_0_12px_4px_rgba(168,85,247,0.5)]"}`}
+                    />
+
+                    {/* Card */}
+                    <div className="relative overflow-hidden border shadow-2xl rounded-2xl bg-white/10 backdrop-blur-md border-white/10">
+                      {/* Top gradient highlight for first card */}
+                      {exp.highlight && (
+                        <div className="absolute inset-x-0 top-0 h-20 pointer-events-none bg-gradient-to-r from-purple-600/20 via-purple-400/10 to-transparent" />
+                      )}
+
+                      <div className="grid md:grid-cols-[220px_1px_1fr]">
+                        {/* Left column with period and logo */}
+                        <div className="flex flex-col gap-4 p-8 bg-gradient-to-b from-white/10 to-transparent">
+                          <div className="text-lg font-semibold tracking-wide text-gray-200">
+                            {exp.period}
+                          </div>
+                          <CompanyLogo
+                            company={exp.company}
+                            logoSrc={exp.logoSrc}
+                          />
                         </div>
-                        <CompanyLogo
-                          company={exp.company}
-                          logoSrc={exp.logoSrc}
-                        />
-                      </div>
 
-                      {/* Vertical divider */}
-                      <div className="hidden md:block w-px bg-gradient-to-b from-purple-400/30 to-transparent" />
+                        {/* Vertical divider */}
+                        <div className="hidden w-px md:block bg-gradient-to-b from-purple-400/30 to-transparent" />
 
-                      {/* Right column with bullet points */}
-                      <div className="p-8">
-                        <ul className="space-y-4 text-gray-100 text-base leading-relaxed">
-                          {exp.points.map((point, i) => (
-                            <li key={i} className="flex gap-3 items-start">
-                              <span className="mt-1 flex-shrink-0">
-                                <SparkleBullet />
-                              </span>
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Right column with bullet points */}
+                        <div className="p-8">
+                          <ul className="space-y-4 text-base leading-relaxed text-gray-100">
+                            {exp.points.map((point, i) => (
+                              <li key={i} className="flex items-start gap-3">
+                                <span className="flex-shrink-0 mt-1">
+                                  <SparkleBullet />
+                                </span>
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </motion.div>

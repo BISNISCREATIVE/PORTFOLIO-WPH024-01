@@ -140,30 +140,30 @@ export function Testimonials() {
 
   return (
     <section id="testimonials" className="py-20 bg-black" ref={ref}>
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="container px-4 mx-auto">
+        <div className="mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-5xl font-bold tracking-tight text-white">
               Trusted by Teams, Valued by Clients
             </h2>
-            <p className="text-lg text-gray-400 tracking-tight">
+            <p className="text-lg tracking-tight text-gray-400">
               A few kind words from the people behind the projects Punjung
               helped bring to life.
             </p>
           </div>
 
           {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-3 gap-5 mb-6">
+          <div className="grid gap-5 mb-6 md:grid-cols-3">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="p-5 rounded-2xl flex flex-col gap-16 testimonial-card-bg"
+                className="flex flex-col gap-16 p-5 rounded-2xl testimonial-card-bg"
               >
                 {/* Company Info */}
                 <div className="flex flex-col gap-8">
                   {/* Company Logo */}
-                  <div className="w-32 h-12 flex items-center">
+                  <div className="flex items-center w-32 h-12">
                     {testimonial.logo}
                   </div>
 
@@ -172,13 +172,13 @@ export function Testimonials() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-6 h-6 fill-yellow-400 text-yellow-400"
+                        className="w-6 h-6 text-yellow-400 fill-yellow-400"
                       />
                     ))}
                   </div>
 
                   {/* Testimonial Text */}
-                  <p className="text-white leading-relaxed text-lg font-medium">
+                  <p className="text-lg font-medium leading-relaxed text-white">
                     "{testimonial.testimonial}"
                   </p>
                 </div>
@@ -188,7 +188,7 @@ export function Testimonials() {
                   <h4 className="text-white font-bold text-base mb-0.5 tracking-tight">
                     {testimonial.personName}
                   </h4>
-                  <p className="text-gray-500 text-base tracking-wide">
+                  <p className="text-base tracking-wide text-gray-500">
                     {testimonial.personTitle}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export function Testimonials() {
 
           {/* Pagination Dots */}
           <div className="flex justify-center gap-1.5">
-            <div className="w-12 h-3 bg-purple-600 rounded-full"></div>
+            <div className="w-12 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-6 h-3 bg-gray-700 rounded-full"></div>
             <div className="w-6 h-3 bg-gray-700 rounded-full"></div>
           </div>

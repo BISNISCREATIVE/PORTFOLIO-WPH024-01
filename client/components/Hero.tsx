@@ -62,7 +62,7 @@ export function Hero() {
         {/* Background Elements */}
         <div className="absolute top-[-23px] left-[-248px] w-[2050px] h-[1034px] text-gray-400">
           <img
-            className="absolute w-[1440px] h-[946px] top-[22px] left-[248px] object-cover"
+            className="absolute w-[2050px] h-[946px] top-[22px] left-[248px] object-cover"
             alt="Background"
             src="https://api.builder.io/api/v1/image/assets/TEMP/7a876578d5d6927a22b987ff6d623ded806f7fb2?width=2880"
           />
@@ -71,7 +71,7 @@ export function Hero() {
             alt="Vector"
             src="https://api.builder.io/api/v1/image/assets/TEMP/35a2d8a6131b1f4eef09363b6d09c6c588735d83?width=4140"
           />
-          <b className="absolute top-[201px] left-[543px] w-[835px] h-[180px] tracking-[-7.083px] leading-[179.306px] text-[141.652px] text-[rgba(217,217,217,0.10)] font-raleway font-bold backdrop-blur-[20px] text-stroke-1">
+          <b className="absolute top-[170px] left-[633px] w-[835px] h-[180px] tracking-[-7.083px] leading-[179.306px] text-[141.652px] text-[rgba(217,217,217,0.10)] font-raleway font-bold backdrop-blur-[20px] text-stroke-1">
             PORTOFOLIO
           </b>
         </div>
@@ -130,7 +130,7 @@ export function Hero() {
 
           {/* About & Social Section */}
           <div className="w-[313px] flex flex-col items-start justify-start gap-10 text-[32px]">
-            <div className="self-stretch flex flex-col items-start justify-start gap-1">
+            <div className="flex flex-col items-start self-stretch justify-start gap-1">
               <b className="self-stretch relative tracking-[-0.04em] leading-[42px]">
                 About me
               </b>
@@ -148,7 +148,7 @@ export function Hero() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 relative backdrop-blur-[40px] rounded-[10908px] bg-gray-400 h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:bg-gray-300"
+                  className="w-12 relative backdrop-blur-[40px] rounded-[10908px] bg-gray-900 h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:bg-gray-400"
                   title={social.label}
                 >
                   <social.icon className="w-5 h-5 text-white" />
@@ -340,16 +340,16 @@ export function Hero() {
 
         {/* About Section */}
         <div className="absolute top-[587px] left-4 right-4 flex flex-col items-start justify-start gap-6 text-lg px-2">
-          <div className="self-stretch flex flex-col items-start justify-start gap-1">
-            <b className="self-stretch relative leading-8">About me</b>
-            <div className="self-stretch relative text-sm leading-7 font-semibold text-gray-100">
+          <div className="flex flex-col items-start self-stretch justify-start gap-1">
+            <b className="relative self-stretch leading-8">About me</b>
+            <div className="relative self-stretch text-sm font-semibold leading-7 text-gray-100">
               Passionate about frontend development, I focus on crafting digital
               products.
             </div>
           </div>
 
           {/* Social Media Icons */}
-          <div className="w-52 h-10 flex flex-row items-center justify-start gap-3">
+          <div className="flex flex-row items-center justify-start h-10 gap-3 w-52">
             {socialLinks.map((social, index) => (
               <a
                 key={social.label}
