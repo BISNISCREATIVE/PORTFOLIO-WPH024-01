@@ -1,6 +1,6 @@
 # PORTFOLIO-WPH024
 CREATE PORTFOLIO WPH024
-LINK WEBSITE: https://portfolio2.padin.my.id
+LINK WEBSITE: https://portfolio1.padin.my.id
 Slicing Portfolio Challenge
 Hai Team! 👋
 Welcome to the ultimate challenge buat kalian para calon web developer kece!
